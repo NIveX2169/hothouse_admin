@@ -1,34 +1,30 @@
-# --- Stage 1: Build the Vite React app ---
-FROM node:lts-trixie-slim AS builder
+# Use stable Alpine-based Node
+FROM node:20-alpine AS builder
 
-
-# Set working directory
 WORKDIR /app
 
-# Copy dependency files first (for better caching)
+# Copy dependency files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy the entire app
-COPY . .
+ENV VITE_REACT_APP_WORKING_ENVIRONMENT="development"
+ENV VITE_REACT_APP_REDUX_PERSIST_SECRET_KEY="absndjndjvni1151211"
+ENV VITE_REACT_APP_API_BASE_URL_DEVELOPMENT="http://57.159.30.136/api/v1"
+ENV VITE_REACT_APP_API_BASE_URL_PRODUCTION="https://api.hothousenorthwood.co.uk/api/v1"
+ENV VITE_REACT_APP_API_BASE_URL_DEVELOPMENT_V2="http://57.159.30.136/api/v2"
+ENV VITE_REACT_APP_API_BASE_URL_PRODUCTION_V2="https://api.hothousenorthwood.co.uk/api/v2"
 
-# Build the app (Vite will use environment variables from .env file)
+# Copy the rest of the app and build
+COPY . .
 RUN npm run build
 
 # --- Stage 2: Serve with nginx ---
 FROM nginx:alpine AS runner
 
-# Copy built files from builder stage
+# Copy built files
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
