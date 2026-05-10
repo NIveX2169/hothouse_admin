@@ -9,10 +9,10 @@ RUN npm install --legacy-peer-deps
 
 ENV VITE_REACT_APP_WORKING_ENVIRONMENT="development"
 ENV VITE_REACT_APP_REDUX_PERSIST_SECRET_KEY="absndjndjvni1151211"
-ENV VITE_REACT_APP_API_BASE_URL_DEVELOPMENT="http://57.159.30.136/api/v1"
+ENV VITE_REACT_APP_API_BASE_URL_DEVELOPMENT="https://boompizza.chickenkiller.com/api/v1"
 ENV VITE_REACT_APP_API_BASE_URL_PRODUCTION="https://api.hothousenorthwood.co.uk/api/v1"
-ENV VITE_REACT_APP_API_BASE_URL_DEVELOPMENT_V2="http://57.159.30.136/api/v2"
-ENV VITE_REACT_APP_API_BASE_URL_PRODUCTION_V2="https://api.hothousenorthwood.co.uk/api/v2"
+ENV VITE_REACT_APP_API_BASE_URL_DEVELOPMENT_V2="https://boompizza.chickenkiller.com/api/v2"
+ENV VITE_REACT_APP_API_BASE_URL_PRODUCTION_V2="https://boompizza.chickenkiller.com/api/v2"
 
 # Copy the rest of the app and build
 COPY . .
